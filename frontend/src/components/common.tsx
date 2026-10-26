@@ -1,0 +1,11 @@
+'use client';
+import Link from 'next/link';
+import { AlertCircle, ArrowRight, FileSearch, LoaderCircle, RotateCcw } from 'lucide-react';
+import { Button } from './ui/button';
+import { assessmentClass } from '@/lib/utils';
+export function PageHeading({eyebrow,title,description,action}:{eyebrow?:string;title:string;description:string;action?:React.ReactNode}){return <div className="page-heading"><div>{eyebrow&&<p className="eyebrow">{eyebrow}</p>}<h1>{title}</h1><p>{description}</p></div>{action}</div>;}
+export function ErrorState({message,retry}:{message:string;retry?:()=>void}){return <div className="error-state" role="alert"><AlertCircle size={20}/><div><strong>We couldn’t complete that request</strong><p>{message}</p>{retry&&<Button variant="outline" size="sm" onClick={retry}><RotateCcw size={14}/> Try again</Button>}</div></div>;}
+export function EmptyState({title='Your next insight starts here',description='Analyze an article to start building your personal research history.'}:{title?:string;description?:string}){return <div className="empty-state"><div className="empty-icon"><FileSearch size={30}/></div><span className="eyebrow">A FRESH PERSPECTIVE</span><h2>{title}</h2><p>{description}</p><Button asChild><Link href="/analyze">Analyze your first article <ArrowRight size={16}/></Link></Button></div>;}
+export function LoadingSkeleton(){return <div className="loading-skeleton" role="status" aria-label="Loading data"><div className="skeleton h-10 w-64"/><div className="skeleton h-5 w-96 max-w-full"/><div className="grid md:grid-cols-3 gap-5 mt-8">{[0,1,2].map(i=><div key={i} className="skeleton h-36"/>)}</div><div className="skeleton h-80 mt-6"/><span className="sr-only">Loading your workspace</span></div>;}
+export function AssessmentBadge({label}:{label:string}){return <span className={`assessment-badge ${assessmentClass(label)}`}><span/>{label}</span>;}
+export function AnalysisProgress(){return <div className="analysis-progress" role="status" aria-live="polite"><div className="progress-orbit"><LoaderCircle size={28} className="spin"/></div><div><strong>Analyzing your content</strong><p>The server is processing language, running inference, and saving your report.</p><small>Actual results will appear when processing is complete.</small></div><div className="indeterminate-bar"><span/></div></div>;}
