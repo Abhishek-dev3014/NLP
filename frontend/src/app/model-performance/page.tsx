@@ -1,2 +1,4 @@
-import { ModelPerformance } from '@/components/model-performance';
-export default function ModelPage(){return <ModelPerformance/>;}
+import { ModelPerformance } from "@/components/model-performance";
+export default function ModelPage() {
+  return <ModelPerformance />;
+}

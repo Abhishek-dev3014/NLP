@@ -1,0 +1,260 @@
+{
+  "accuracy": 0.9630883567299753,
+  "balanced_accuracy": 0.9616207270698869,
+  "precision": 0.9650738821723278,
+  "recall": 0.9499433320740461,
+  "f1": 0.9574488338886245,
+  "macro_f1": 0.9624283906956793,
+  "roc_auc": 0.993910276449023,
+  "brier_score": 0.02778134234245164,
+  "log_loss": 0.09748256452554137,
+  "model_name": "Article TF-IDF + calibrated Linear SVM",
+  "version": "welfake-article-11bbf1821c",
+  "dataset": "WELFake English full-article benchmark (2021 release)",
+  "dataset_url": "https://zenodo.org/records/4561253",
+  "dataset_size": 60544,
+  "class_distribution": {
+    "credible": 34072,
+    "misleading": 26472
+  },
+  "split": {
+    "train": 36325,
+    "validation": 6054,
+    "calibration": 6055,
+    "test": 12110
+  },
+  "split_method": "Stratified duplicate-group split: 60% train, 10% validation, 10% calibration, 20% test. All four partitions are group-disjoint.",
+  "evaluation_note": "Full test accuracy is measured before abstention, without excluding low-confidence examples. Not source/time held out; not validated on contemporary Indian news.",
+  "confusion_matrix": [
+    [
+      6634,
+      182
+    ],
+    [
+      265,
+      5029
+    ]
+  ],
+  "classification_report": {
+    "credible": {
+      "precision": 0.9615886360342079,
+      "recall": 0.9732981220657277,
+      "f1-score": 0.9674079475027342,
+      "support": 6816.0
+    },
+    "misleading": {
+      "precision": 0.9650738821723278,
+      "recall": 0.9499433320740461,
+      "f1-score": 0.9574488338886245,
+      "support": 5294.0
+    },
+    "accuracy": 0.9630883567299753,
+    "macro avg": {
+      "precision": 0.9633312591032679,
+      "recall": 0.9616207270698869,
+      "f1-score": 0.9624283906956793,
+      "support": 12110.0
+    },
+    "weighted avg": {
+      "precision": 0.9631122440486757,
+      "recall": 0.9630883567299753,
+      "f1-score": 0.9630542276453357,
+      "support": 12110.0
+    }
+  },
+  "calibrated": true,
+  "calibration": {
+    "method": "Sigmoid calibration on a separate 10% group-disjoint calibration set",
+    "brier_before": 0.07797908280299434,
+    "brier_after": 0.02778134234245164,
+    "ece": 0.0072348335048141345,
+    "reliability_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 6258,
+        "predicted": 0.008938977322993083,
+        "observed": 0.009747523170341962
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 243,
+        "predicted": 0.1418675195418868,
+        "observed": 0.1646090534979424
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 159,
+        "predicted": 0.24790631792024317,
+        "observed": 0.2830188679245283
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 131,
+        "predicted": 0.34932103324753705,
+        "observed": 0.4580152671755725
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 108,
+        "predicted": 0.45022595377508207,
+        "observed": 0.5462962962962963
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 106,
+        "predicted": 0.5497608252792872,
+        "observed": 0.7075471698113207
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 145,
+        "predicted": 0.6520050841022124,
+        "observed": 0.7103448275862069
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 173,
+        "predicted": 0.756182729363014,
+        "observed": 0.7803468208092486
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 277,
+        "predicted": 0.8552081673210687,
+        "observed": 0.8844765342960289
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 4510,
+        "predicted": 0.9892776090479188,
+        "observed": 0.9913525498891352
+      }
+    ]
+  },
+  "confidence_policy": {
+    "threshold": 0.65,
+    "evaluation_scope": "confidence_only",
+    "test_count": 11766,
+    "test_correct": 11461,
+    "test_coverage": 0.9715937241948802,
+    "test_accuracy": 0.974077851436342,
+    "test_accuracy_interval": [
+      0.9710481473607253,
+      0.9767980836369798
+    ],
+    "note": "Fixed 0.65 threshold. These conditional results supplement, never replace, full-test metrics."
+  },
+  "accuracy_interval": [
+    0.9595806826355517,
+    0.9663023171883853
+  ],
+  "validation_search": [
+    {
+      "name": "Linear SVM C=0.5",
+      "C": 0.5,
+      "accuracy": 0.9580442682523951,
+      "balanced_accuracy": 0.956740433843121,
+      "precision": 0.9572029040886512,
+      "recall": 0.9463543634302984,
+      "f1": 0.9517477203647416,
+      "macro_f1": 0.9573174604161523,
+      "roc_auc": 0.9930067976007528,
+      "brier_score": 0.09022306481538987,
+      "log_loss": 0.3427462020051188,
+      "seconds": 0.9892022920103045
+    },
+    {
+      "name": "Linear SVM C=1",
+      "C": 1.0,
+      "accuracy": 0.9596960687148992,
+      "balanced_accuracy": 0.9582922734355777,
+      "precision": 0.9601685178092685,
+      "recall": 0.9471099357763506,
+      "f1": 0.9535945226321796,
+      "macro_f1": 0.9589870423379876,
+      "roc_auc": 0.9933303608684046,
+      "brier_score": 0.08342161934988468,
+      "log_loss": 0.323882481399855,
+      "seconds": 1.0867044579936191
+    },
+    {
+      "name": "Linear SVM C=2",
+      "C": 2.0,
+      "accuracy": 0.9598612487611496,
+      "balanced_accuracy": 0.9584390301130066,
+      "precision": 0.960536398467433,
+      "recall": 0.9471099357763506,
+      "f1": 0.953775917823854,
+      "macro_f1": 0.9591533216326977,
+      "roc_auc": 0.9933545338609846,
+      "brier_score": 0.07857081206135576,
+      "log_loss": 0.30973339058892224,
+      "seconds": 1.4511747079959605
+    }
+  ],
+  "selected_C": 2.0,
+  "seed": 42,
+  "selection_rule": "Highest validation macro-F1; ROC-AUC breaks ties. Calibration on separate groups. Test evaluated once after selection.",
+  "label_mapping": {
+    "credible": [
+      "CSV label 0 (real)"
+    ],
+    "misleading": [
+      "CSV label 1 (fake)"
+    ],
+    "excluded": [
+      "Missing/short bodies",
+      "Exact duplicate bodies",
+      "Contradictory exact duplicates"
+    ]
+  },
+  "duplicates_removed": {
+    "exact": 8238,
+    "near": 0
+  },
+  "data_audit": {
+    "raw_rows": 72134,
+    "usable_rows": 60544,
+    "filtered_exact_or_conflicting": 8238,
+    "ambiguous_fingerprints": 1,
+    "groups": 59424,
+    "near_grouped_rows": 1120,
+    "grouping": "Exact body duplicates removed; identical title/80-word lead and 64-permutation MinHash LSH at 0.80 similarity kept in a common group. Approximate grouping can miss paraphrases.",
+    "split_fingerprint": "11bbf1821cefd142d43a4b8141272fcaaf386789bbb2bd390693d20df176b9a2",
+    "label_audit": "CSV 0=real (35028), 1=fake (37106); Zenodo description reverses numeric mapping. Reuters source-tagged rows and published class totals corroborate this mapping."
+  },
+  "evaluated_at": "2026-10-26T12:23:54.445631+00:00",
+  "license_note": "Authors distribute WELFake on Zenodo under CC BY 4.0. Attribute Verma, Agrawal and Prodan (2021). Article copyrights may differ; raw content is kept local, not republished.",
+  "limitations": [
+    "Benchmark labels are inherited from merged datasets, sometimes publisher-level rather than individually verified claims.",
+    "Source and writing-style shortcuts remain despite stripping obvious Reuters/AP/byline/URL markers. This is not source-disjoint evaluation.",
+    "Training news is historical and largely US-focused. Indian/current-news accuracy has not been measured.",
+    "Approximate duplicate grouping reduces leakage but does not prove absence of paraphrase leakage.",
+    "Calibrated model confidence is benchmark class probability, not factual verification.",
+    "Only the first 2500 words of each article enter the classifier. Short snippets below 40 words receive an uncertain result."
+  ],
+  "domain_stress": {
+    "dataset": "LIAR short political claims (different task/domain)",
+    "count": 798,
+    "accuracy": 0.4724310776942356,
+    "balanced_accuracy": 0.5090037981761042,
+    "precision": 0.43074324324324326,
+    "recall": 0.7522123893805309,
+    "f1": 0.547798066595059,
+    "macro_f1": 0.45735767991407084,
+    "roc_auc": 0.5304978759776607,
+    "brier_score": 0.37427852697846076,
+    "log_loss": 1.164776399545064,
+    "note": "Cross-domain diagnostic. Not included in WELFake test metrics and not used for tuning."
+  }
+}

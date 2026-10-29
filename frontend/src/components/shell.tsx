@@ -1,15 +1,224 @@
-'use client';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { ArrowUpRight, ArrowRight, AudioLines, ChartNoAxesCombined, ChevronLeft, ChevronRight, CircleHelp, FlaskConical, History, LayoutDashboard, Menu, Plus, Settings2, ShieldCheck, X } from 'lucide-react';
-import { Brand } from './brand';
-import { ThemeToggle } from './theme-toggle';
-import { Button } from './ui/button';
-const navigation=[{href:'/dashboard',label:'Overview',icon:LayoutDashboard},{href:'/analyze',label:'New analysis',icon:Plus},{href:'/history',label:'Analysis history',icon:History},{href:'/dashboard#insights',label:'Insights',icon:ChartNoAxesCombined},{href:'/model-performance',label:'Model information',icon:FlaskConical}];
-export function AppShell({children}:{children:React.ReactNode}) {
- const path=usePathname();const [open,setOpen]=useState(false);const [collapsed,setCollapsed]=useState(false);
- const marketing=['/','/about','/how-it-works'].includes(path);
- if(marketing)return <><header className="marketing-nav"><div className="nav-inner"><Brand/><nav className={open?'marketing-links is-open':'marketing-links'} aria-label="Main navigation">{[['/','Home'],['/analyze','Analyze'],['/dashboard','Dashboard'],['/how-it-works','How it works'],['/about','About']].map(([href,label])=><Link className={path===href?'active':''} key={href} href={href} onClick={()=>setOpen(false)}>{label}</Link>)}</nav><div className="nav-actions"><ThemeToggle/><Button asChild size="sm"><Link href="/analyze">Get started <ArrowUpRight size={15}/></Link></Button><button aria-label={open?'Close navigation':'Open navigation'} className="icon-button mobile-menu" onClick={()=>setOpen(!open)}>{open?<X size={20}/>:<Menu size={20}/>}</button></div></div></header><main id="main-content">{children}</main><footer className="footer"><div><Brand/><p>Think critically. Verify intelligently.</p></div><div><span>Built for critical thinkers.</span><nav aria-label="Footer"><Link href="/how-it-works">Methodology</Link><Link href="/model-performance">Model transparency</Link><Link href="/about">About the project <ArrowUpRight size={12}/></Link></nav></div><p className="footer-note">An NLP university research project. Model predictions are not verified facts.</p></footer></>;
- return <div className={`app-layout ${collapsed?'sidebar-collapsed':''}`}><button className="app-menu icon-button" aria-label={open?'Close navigation':'Open navigation'} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button>{open&&<button className="sidebar-backdrop" aria-label="Close navigation" onClick={()=>setOpen(false)}/>}<aside className={`sidebar ${open?'sidebar-open':''}`}><Brand/><div className="workspace-label"><span className="workspace-avatar">V</span><div><strong>Personal workspace</strong><small>Local research environment</small></div></div><p className="nav-caption">WORKSPACE</p><nav aria-label="Workspace navigation">{navigation.map(({href,label,icon:Icon})=><Link title={label} className={path===href.split('#')[0] && !href.includes('#')?'sidebar-link active':'sidebar-link'} key={href} href={href} onClick={()=>setOpen(false)}><Icon size={18}/><span>{label}</span>{label==='New analysis'&&<span className="shortcut">↵</span>}</Link>)}</nav><div className="sidebar-bottom"><div className="sidebar-note"><span className="mini-icon"><ShieldCheck size={18}/></span><strong>Insight, with integrity.</strong><p>Language patterns guide your investigation. Evidence helps you verify.</p><Link href="/how-it-works">Understand the model <ArrowUpRight size={13}/></Link></div><Link className="sidebar-link" href="/settings"><Settings2 size={18}/><span>Settings & privacy</span></Link><Link className="sidebar-link" href="/how-it-works"><CircleHelp size={18}/><span>Help & methodology</span></Link><button className="collapse-button" aria-label={collapsed?'Expand sidebar':'Collapse sidebar'} onClick={()=>setCollapsed(!collapsed)}>{collapsed?<ChevronRight size={16}/>:<ChevronLeft size={16}/>}<span>Collapse sidebar</span></button></div></aside><div className="app-main"><header className="app-header"><div className="breadcrumb"><AudioLines size={15}/><span>Workspace</span><ChevronRight size={13}/><strong>{path.startsWith('/results')?'Analysis report':navigation.find(n=>n.href===path)?.label||'Settings'}</strong></div><div className="flex items-center gap-4"><span className="research-badge"><span/> Research edition</span><ThemeToggle/><span className="profile-avatar" title="Anonymous local session">V</span></div></header><main id="main-content" className="workspace-content">{children}</main><div className="workspace-footer"><span><ShieldCheck size={12}/> NLP insights. Human judgment.</span><Link href="/model-performance">Model transparency <ArrowRight size={12}/></Link></div></div></div>;
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  AudioLines,
+  ChartNoAxesCombined,
+  ChevronLeft,
+  ChevronRight,
+  CircleHelp,
+  FlaskConical,
+  History,
+  LayoutDashboard,
+  Menu,
+  Plus,
+  Settings2,
+  ShieldCheck,
+  X,
+} from "lucide-react";
+import { Brand } from "./brand";
+import { ThemeToggle } from "./theme-toggle";
+import { Button } from "./ui/button";
+const navigation = [
+  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/analyze", label: "New analysis", icon: Plus },
+  { href: "/history", label: "Analysis history", icon: History },
+  { href: "/nlp-lab", label: "NLP lab", icon: FlaskConical },
+  { href: "/dashboard#insights", label: "Insights", icon: ChartNoAxesCombined },
+  {
+    href: "/model-performance",
+    label: "Model information",
+    icon: FlaskConical,
+  },
+];
+export function AppShell({ children }: { children: React.ReactNode }) {
+  const path = usePathname();
+  const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const marketing = ["/", "/about", "/how-it-works"].includes(path);
+  if (marketing)
+    return (
+      <>
+        <header className="marketing-nav">
+          <div className="nav-inner">
+            <Brand />
+            <nav
+              className={open ? "marketing-links is-open" : "marketing-links"}
+              aria-label="Main navigation"
+            >
+              {[
+                ["/", "Home"],
+                ["/analyze", "Analyze"],
+                ["/dashboard", "Dashboard"],
+                ["/how-it-works", "How it works"],
+                ["/about", "About"],
+              ].map(([href, label]) => (
+                <Link
+                  className={path === href ? "active" : ""}
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
+            <div className="nav-actions">
+              <ThemeToggle />
+              <Button asChild size="sm">
+                <Link href="/analyze">
+                  Get started <ArrowUpRight size={15} />
+                </Link>
+              </Button>
+              <button
+                aria-expanded={open}
+                aria-label={open ? "Close navigation" : "Open navigation"}
+                className="icon-button mobile-menu"
+                onClick={() => setOpen(!open)}
+              >
+                {open ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+          </div>
+        </header>
+        <main id="main-content">{children}</main>
+        <footer className="footer">
+          <div>
+            <Brand />
+            <p>Think critically. Verify intelligently.</p>
+          </div>
+          <div>
+            <span>Built for critical thinkers.</span>
+            <nav aria-label="Footer">
+              <Link href="/how-it-works">Methodology</Link>
+              <Link href="/model-performance">Model transparency</Link>
+              <Link href="/about">
+                About the project <ArrowUpRight size={12} />
+              </Link>
+            </nav>
+          </div>
+          <p className="footer-note">
+            An NLP university research project. Model predictions are not
+            verified facts.
+          </p>
+        </footer>
+      </>
+    );
+  return (
+    <div className={`app-layout ${collapsed ? "sidebar-collapsed" : ""}`}>
+      <button
+        className="app-menu icon-button"
+        aria-expanded={open}
+        aria-label={open ? "Close navigation" : "Open navigation"}
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <X /> : <Menu />}
+      </button>
+      {open && (
+        <button
+          className="sidebar-backdrop"
+          aria-label="Close navigation"
+          onClick={() => setOpen(false)}
+        />
+      )}
+      <aside className={`sidebar ${open ? "sidebar-open" : ""}`}>
+        <Brand />
+        <div className="workspace-label">
+          <span className="workspace-avatar">V</span>
+          <div>
+            <strong>Personal workspace</strong>
+            <small>Local research environment</small>
+          </div>
+        </div>
+        <p className="nav-caption">WORKSPACE</p>
+        <nav aria-label="Workspace navigation">
+          {navigation.map(({ href, label, icon: Icon }) => (
+            <Link
+              title={label}
+              className={
+                path === href.split("#")[0] && !href.includes("#")
+                  ? "sidebar-link active"
+                  : "sidebar-link"
+              }
+              key={href}
+              href={href}
+              onClick={() => setOpen(false)}
+            >
+              <Icon size={18} />
+              <span>{label}</span>
+              {label === "New analysis" && <span className="shortcut">↵</span>}
+            </Link>
+          ))}
+        </nav>
+        <div className="sidebar-bottom">
+          <div className="sidebar-note">
+            <span className="mini-icon">
+              <ShieldCheck size={18} />
+            </span>
+            <strong>Insight, with integrity.</strong>
+            <p>
+              Language patterns guide your investigation. Evidence helps you
+              verify.
+            </p>
+            <Link href="/how-it-works">
+              Understand the model <ArrowUpRight size={13} />
+            </Link>
+          </div>
+          <Link className="sidebar-link" href="/settings">
+            <Settings2 size={18} />
+            <span>Settings & privacy</span>
+          </Link>
+          <Link className="sidebar-link" href="/how-it-works">
+            <CircleHelp size={18} />
+            <span>Help & methodology</span>
+          </Link>
+          <button
+            className="collapse-button"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            <span>Collapse sidebar</span>
+          </button>
+        </div>
+      </aside>
+      <div className="app-main">
+        <header className="app-header">
+          <div className="breadcrumb">
+            <AudioLines size={15} />
+            <span>Workspace</span>
+            <ChevronRight size={13} />
+            <strong>
+              {path.startsWith("/results")
+                ? "Analysis report"
+                : navigation.find((n) => n.href === path)?.label || "Settings"}
+            </strong>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="research-badge">
+              <span /> Research edition
+            </span>
+            <ThemeToggle />
+            <span className="profile-avatar" title="Anonymous local session">
+              V
+            </span>
+          </div>
+        </header>
+        <main id="main-content" className="workspace-content">
+          {children}
+        </main>
+        <div className="workspace-footer">
+          <span>
+            <ShieldCheck size={12} /> NLP insights. Human judgment.
+          </span>
+          <Link href="/model-performance">
+            Model transparency <ArrowRight size={12} />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -1,0 +1,379 @@
+{
+  "model_name": "Calibrated Word + character TF-IDF, stronger regularization + Logistic Regression",
+  "version": "liar-calibrated-86c8728d5630",
+  "dataset": "LIAR (Wang, ACL 2017), binary subset",
+  "dataset_url": "https://sites.cs.ucsb.edu/~william/data/liar_dataset.zip",
+  "dataset_size": 8061,
+  "class_distribution": {
+    "credible": 4522,
+    "misleading": 3539
+  },
+  "split": {
+    "train": 6472,
+    "validation": 791,
+    "test": 798
+  },
+  "split_method": "Original official splits; exact and near duplicates removed globally, keeping the earliest split. No speaker metadata used. Speakers can overlap between splits; this is not a source-held-out benchmark.",
+  "duplicates_removed": {
+    "exact": 23,
+    "near": 6,
+    "near_cosine_threshold": 0.92,
+    "split_fingerprint": "3277b2a3764c813f56d8afbc86b1c2fb74d59534c0d56af7232e47a0ca0480ca"
+  },
+  "label_mapping": {
+    "credible": [
+      "true",
+      "mostly-true"
+    ],
+    "misleading": [
+      "false",
+      "pants-fire"
+    ],
+    "excluded": [
+      "half-true",
+      "barely-true"
+    ]
+  },
+  "accuracy": 0.6365914786967418,
+  "precision": 0.5859649122807018,
+  "recall": 0.49262536873156343,
+  "f1": 0.5352564102564102,
+  "roc_auc": 0.7068720638042172,
+  "confusion_matrix": [
+    [
+      341,
+      118
+    ],
+    [
+      172,
+      167
+    ]
+  ],
+  "classification_report": {
+    "credible": {
+      "precision": 0.6647173489278753,
+      "recall": 0.7429193899782135,
+      "f1-score": 0.7016460905349794,
+      "support": 459.0
+    },
+    "misleading": {
+      "precision": 0.5859649122807018,
+      "recall": 0.49262536873156343,
+      "f1-score": 0.5352564102564102,
+      "support": 339.0
+    },
+    "accuracy": 0.6365914786967418,
+    "macro avg": {
+      "precision": 0.6253411306042885,
+      "recall": 0.6177723793548885,
+      "f1-score": 0.6184512503956948,
+      "support": 798.0
+    },
+    "weighted avg": {
+      "precision": 0.6312623664424218,
+      "recall": 0.6365914786967418,
+      "f1-score": 0.6309617526722789,
+      "support": 798.0
+    }
+  },
+  "validation_search": [
+    {
+      "name": "Word TF-IDF",
+      "char_weight": 0.0,
+      "semantic_weight": 0.0,
+      "C": 1.0,
+      "accuracy": 0.6738305941845765,
+      "balanced_accuracy": 0.6724829072437369,
+      "precision": 0.6558265582655827,
+      "recall": 0.6487935656836461,
+      "f1": 0.6522911051212938,
+      "macro_f1": 0.6725741239892183,
+      "roc_auc": 0.7345523814410508,
+      "brier_score": 0.2102136822970607,
+      "log_loss": 0.6085743080545567,
+      "seconds": 0.15
+    },
+    {
+      "name": "Word + character TF-IDF",
+      "char_weight": 0.5,
+      "semantic_weight": 0.0,
+      "C": 1.0,
+      "accuracy": 0.6750948166877371,
+      "balanced_accuracy": 0.6741120104673088,
+      "precision": 0.6550802139037433,
+      "recall": 0.6568364611260054,
+      "f1": 0.6559571619812584,
+      "macro_f1": 0.6740863654217669,
+      "roc_auc": 0.7398373462293315,
+      "brier_score": 0.2076627159471854,
+      "log_loss": 0.6024069072223777,
+      "seconds": 0.55
+    },
+    {
+      "name": "Word + character TF-IDF, stronger regularization",
+      "char_weight": 0.5,
+      "semantic_weight": 0.0,
+      "C": 0.5,
+      "accuracy": 0.683944374209861,
+      "balanced_accuracy": 0.683351078158472,
+      "precision": 0.662269129287599,
+      "recall": 0.6729222520107239,
+      "f1": 0.6675531914893617,
+      "macro_f1": 0.6831741861061267,
+      "roc_auc": 0.7434675526251652,
+      "brier_score": 0.21065272802804963,
+      "log_loss": 0.6102661271569079,
+      "seconds": 0.55
+    },
+    {
+      "name": "TF-IDF + MiniLM embeddings",
+      "char_weight": 0.35,
+      "semantic_weight": 1.0,
+      "C": 1.0,
+      "accuracy": 0.6750948166877371,
+      "balanced_accuracy": 0.6749778724168451,
+      "precision": 0.6502590673575129,
+      "recall": 0.6729222520107239,
+      "f1": 0.6613965744400527,
+      "macro_f1": 0.6745621997352147,
+      "roc_auc": 0.7397218979693935,
+      "brier_score": 0.20630807096210735,
+      "log_loss": 0.5983406893080162,
+      "seconds": 0.95
+    },
+    {
+      "name": "TF-IDF + MiniLM embeddings, semantic emphasis",
+      "char_weight": 0.35,
+      "semantic_weight": 2.0,
+      "C": 1.0,
+      "accuracy": 0.6713021491782554,
+      "balanced_accuracy": 0.6705234937208975,
+      "precision": 0.649867374005305,
+      "recall": 0.6568364611260054,
+      "f1": 0.6533333333333333,
+      "macro_f1": 0.6704166666666667,
+      "roc_auc": 0.7338468642969843,
+      "brier_score": 0.20831548209470702,
+      "log_loss": 0.6026558569835286,
+      "seconds": 0.96
+    },
+    {
+      "name": "TF-IDF + MiniLM embeddings, stronger regularization",
+      "char_weight": 0.35,
+      "semantic_weight": 1.0,
+      "C": 0.5,
+      "accuracy": 0.6788874841972187,
+      "balanced_accuracy": 0.679432251112793,
+      "precision": 0.6506329113924051,
+      "recall": 0.6890080428954424,
+      "f1": 0.6692708333333334,
+      "macro_f1": 0.6786157606470107,
+      "roc_auc": 0.7439485870415742,
+      "brier_score": 0.20587803367716803,
+      "log_loss": 0.5979218360719499,
+      "seconds": 0.77
+    }
+  ],
+  "selected_C": 0.5,
+  "seed": 42,
+  "calibrated": true,
+  "evaluated_at": "2026-10-26T11:59:18.584628+00:00",
+  "limitations": [
+    "Only short historical US political claims are evaluated; full articles and other topics need additional validation.",
+    "Calibration is fitted on out-of-fold training predictions and assessed on held-out claims; it does not guarantee calibration in other domains.",
+    "Historical test set was also reported for v1; this comparison is retrospective, not a new unseen benchmark.",
+    "Middle truthfulness labels are excluded; this is not the original six-class task.",
+    "Sources and speakers overlap across official splits. Dataset framing can become a shortcut.",
+    "Model estimates measure learned label associations, not independent factual truth."
+  ],
+  "license_note": "Original LIAR distribution contains no explicit blanket license grant. Underlying PolitiFact content may have separate terms. Data is downloaded locally and not redistributed; review rights for your intended use.",
+  "balanced_accuracy": 0.6177723793548885,
+  "macro_f1": 0.6184512503956948,
+  "brier_score": 0.2128280615068186,
+  "log_loss": 0.6137010235178321,
+  "selected_features": {
+    "name": "Word + character TF-IDF, stronger regularization",
+    "char_weight": 0.5,
+    "semantic_weight": 0.0,
+    "C": 0.5
+  },
+  "selection_rule": "Highest validation macro-F1; ROC-AUC breaks ties. Test labels never used for selection.",
+  "calibration": {
+    "method": "Sigmoid / Platt scaling using 5-fold out-of-fold training logits",
+    "folds": 5,
+    "brier_before": 0.21792858153043415,
+    "brier_after": 0.2128280615068186,
+    "ece": 0.04309954733062971,
+    "reliability_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 12,
+        "predicted": 0.07076891734587505,
+        "observed": 0.16666666666666666
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 75,
+        "predicted": 0.1627322751925112,
+        "observed": 0.12
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 131,
+        "predicted": 0.25367580234556303,
+        "observed": 0.22900763358778625
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 138,
+        "predicted": 0.3503448032703584,
+        "observed": 0.3695652173913043
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 157,
+        "predicted": 0.44901645130489726,
+        "observed": 0.5095541401273885
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 134,
+        "predicted": 0.5453450412508583,
+        "observed": 0.47761194029850745
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 97,
+        "predicted": 0.6438521288065973,
+        "observed": 0.6082474226804123
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 38,
+        "predicted": 0.7408318628180105,
+        "observed": 0.7631578947368421
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 13,
+        "predicted": 0.8423293180413964,
+        "observed": 0.9230769230769231
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 3,
+        "predicted": 0.9262064542560503,
+        "observed": 1.0
+      }
+    ],
+    "slope": 1.4788126304140867,
+    "intercept": -0.19270898991041355
+  },
+  "previous_model": {
+    "name": "TF-IDF + Logistic Regression",
+    "version": "liar-binary-ccdc38e3950f",
+    "accuracy": 0.6629072681704261,
+    "balanced_accuracy": 0.6572290666512426,
+    "precision": 0.6,
+    "recall": 0.6194690265486725,
+    "f1": 0.6095791001451378,
+    "macro_f1": 0.6564984806128115,
+    "roc_auc": 0.7187485941607059,
+    "brier_score": 0.2129976646027439,
+    "log_loss": 0.6145008755262604
+  },
+  "confidence_policy": {
+    "threshold": 0.7,
+    "target_met_on_validation": true,
+    "validation_curve": [
+      {
+        "threshold": 0.6,
+        "count": 519,
+        "accuracy": 0.7514450867052023,
+        "interval": [
+          0.7125064403653992,
+          0.7866887269663508
+        ]
+      },
+      {
+        "threshold": 0.65,
+        "count": 384,
+        "accuracy": 0.78125,
+        "interval": [
+          0.7372268060456276,
+          0.819701589464292
+        ]
+      },
+      {
+        "threshold": 0.7,
+        "count": 273,
+        "accuracy": 0.8021978021978022,
+        "interval": [
+          0.7508931618869743,
+          0.8451155304482818
+        ]
+      },
+      {
+        "threshold": 0.75,
+        "count": 178,
+        "accuracy": 0.8370786516853933,
+        "interval": [
+          0.7758110075076834,
+          0.884103995439937
+        ]
+      },
+      {
+        "threshold": 0.8,
+        "count": 105,
+        "accuracy": 0.8285714285714286,
+        "interval": [
+          0.7452257441289754,
+          0.8887230401593851
+        ]
+      },
+      {
+        "threshold": 0.85,
+        "count": 63,
+        "accuracy": 0.8888888888888888,
+        "interval": [
+          0.7879511971626006,
+          0.9451252103441016
+        ]
+      },
+      {
+        "threshold": 0.9,
+        "count": 14,
+        "accuracy": 0.9285714285714286,
+        "interval": [
+          0.6853073044604219,
+          0.9872781138877085
+        ]
+      }
+    ],
+    "test_coverage": 0.3408521303258145,
+    "test_count": 272,
+    "test_correct": 221,
+    "test_accuracy": 0.8125,
+    "test_accuracy_interval": [
+      0.7618811691616092,
+      0.8544145599814932
+    ],
+    "note": "Accuracy among accepted predictions is conditional and may be based on few samples. Always read coverage and the interval together.",
+    "evaluation_scope": "confidence_only"
+  },
+  "accuracy_interval": [
+    0.6026386527464854,
+    0.6692354929700749
+  ],
+  "encoder": null
+}

@@ -1,12 +1,246 @@
-'use client';
-import Link from 'next/link';
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowUpRight, ChevronLeft, ChevronRight, Grid2X2, List, Plus, Search, Trash2 } from 'lucide-react';
-import { api } from '@/lib/api';
-import { formatDate, percent } from '@/lib/utils';
-import { AssessmentBadge, EmptyState, ErrorState, LoadingSkeleton, PageHeading } from './common';
-import { Button } from './ui/button';
-import { ConfirmDialog } from './ui/dialog';
-import { HistoryTable } from './history-table';
-export function History(){const [search,setSearch]=useState('');const [label,setLabel]=useState('');const [order,setOrder]=useState('newest');const [page,setPage]=useState(1);const [view,setView]=useState<'list'|'grid'>('list');const client=useQueryClient();const params=new URLSearchParams({search,label,order,page:String(page),page_size:'9'});const query=useQuery({queryKey:['analyses',params.toString()],queryFn:()=>api.analyses(params)});const remove=useMutation({mutationFn:(id:string)=>id==='all'?api.clear():api.remove(id),onSuccess:async()=>{await client.invalidateQueries({queryKey:['analyses']});await client.invalidateQueries({queryKey:['stats']});setPage(1);}});return <><PageHeading eyebrow="FOLLOW YOUR CURIOSITY" title="Your research history" description="Every article. Every question. A research trail you can return to." action={<div className="flex gap-2"><ConfirmDialog title="Clear your entire history?" description="All analyses in this browser session will be permanently deleted, including their article text, model insights, claims, and evidence records." onConfirm={()=>remove.mutate('all')} pending={remove.isPending} trigger={<Button variant="outline" size="sm" disabled={remove.isPending||!query.data?.total}><Trash2 size={13}/> Clear history</Button>}/><Button size="sm" asChild><Link href="/analyze"><Plus size={13}/> New analysis</Link></Button></div>}/><div className="filter-bar"><div className="search-field"><Search size={14}/><input className="text-input" aria-label="Search history by headline" placeholder="Search your analyses…" value={search} onChange={e=>{setSearch(e.target.value);setPage(1);}}/></div><select className="select" aria-label="Filter by assessment" value={label} onChange={e=>{setLabel(e.target.value);setPage(1);}}><option value="">All assessments</option>{['Likely Credible','Potentially Misleading','Needs Further Verification','Insufficient Evidence'].map(l=><option key={l}>{l}</option>)}</select><select className="select" aria-label="Sort history" value={order} onChange={e=>{setOrder(e.target.value);setPage(1);}}><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select><div className="view-toggle"><button aria-label="List view" aria-pressed={view==='list'} onClick={()=>setView('list')}><List size={15}/></button><button aria-label="Grid view" aria-pressed={view==='grid'} onClick={()=>setView('grid')}><Grid2X2 size={14}/></button></div></div>{remove.isError&&<ErrorState message={remove.error.message}/>} {query.isPending?<LoadingSkeleton/>:query.isError?<ErrorState message={query.error.message} retry={()=>query.refetch()}/>:!query.data.items.length?<div className="panel"><EmptyState title={search||label?'No matching analyses':'A fresh start for your research'} description={search||label?'Try a different headline or assessment filter.':'Your analyses will be saved here, privately in this browser session.'}/></div>:<><div className={view==='list'?'panel':''}>{view==='list'?<HistoryTable items={query.data.items} onDelete={id=>remove.mutate(id)} pending={remove.isPending}/>:<div className="history-grid">{query.data.items.map(a=><article className="panel history-card" key={a.id}><AssessmentBadge label={a.prediction.label}/><Link href={`/results/${a.id}`}><h3>{a.headline}</h3></Link><p>{formatDate(a.created_at)} · {a.insights.word_count} words</p><p>Model confidence: {percent(a.prediction.confidence)} · uncalibrated</p><div><Link className="section-link" href={`/results/${a.id}`}>Open report <ArrowUpRight size={12}/></Link><ConfirmDialog title="Delete this analysis?" description="This permanently removes the article and all associated analysis data." onConfirm={()=>remove.mutate(a.id)} pending={remove.isPending} trigger={<button disabled={remove.isPending} className="table-action" aria-label={`Delete ${a.headline}`}><Trash2 size={12}/></button>}/></div></article>)}</div>}</div><div className="table-footer"><span>{query.data.total} results · Page {page} of {Math.ceil(query.data.total/9)}</span><div className="flex gap-2"><Button variant="outline" size="sm" disabled={page===1} onClick={()=>setPage(page-1)}><ChevronLeft size={12}/> Previous</Button><Button variant="outline" size="sm" disabled={page*9>=query.data.total} onClick={()=>setPage(page+1)}>Next <ChevronRight size={12}/></Button></div></div></>}</>;}
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  Grid2X2,
+  List,
+  Plus,
+  Search,
+  Trash2,
+} from "lucide-react";
+import { api } from "@/lib/api";
+import { formatDate, percent } from "@/lib/utils";
+import {
+  AssessmentBadge,
+  EmptyState,
+  ErrorState,
+  LoadingSkeleton,
+  PageHeading,
+} from "./common";
+import { Button } from "./ui/button";
+import { ConfirmDialog } from "./ui/dialog";
+import { HistoryTable } from "./history-table";
+export function History() {
+  const [search, setSearch] = useState("");
+  const [label, setLabel] = useState("");
+  const [order, setOrder] = useState("newest");
+  const [page, setPage] = useState(1);
+  const [view, setView] = useState<"list" | "grid">("list");
+  const client = useQueryClient();
+  const params = new URLSearchParams({
+    search,
+    label,
+    order,
+    page: String(page),
+    page_size: "9",
+  });
+  const query = useQuery({
+    queryKey: ["analyses", params.toString()],
+    queryFn: () => api.analyses(params),
+  });
+  const remove = useMutation({
+    mutationFn: (id: string) => (id === "all" ? api.clear() : api.remove(id)),
+    onSuccess: async () => {
+      await client.invalidateQueries({ queryKey: ["analyses"] });
+      await client.invalidateQueries({ queryKey: ["stats"] });
+      setPage(1);
+    },
+  });
+  return (
+    <>
+      <PageHeading
+        eyebrow="FOLLOW YOUR CURIOSITY"
+        title="Your research history"
+        description="Every article. Every question. A research trail you can return to."
+        action={
+          <div className="flex gap-2">
+            <ConfirmDialog
+              title="Clear your entire history?"
+              description="All analyses in this browser session will be permanently deleted, including their article text, model insights, claims, and evidence records."
+              onConfirm={() => remove.mutate("all")}
+              pending={remove.isPending}
+              trigger={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={remove.isPending || !query.data?.total}
+                >
+                  <Trash2 size={13} /> Clear history
+                </Button>
+              }
+            />
+            <Button size="sm" asChild>
+              <Link href="/analyze">
+                <Plus size={13} /> New analysis
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+      <div className="filter-bar">
+        <div className="search-field">
+          <Search size={14} />
+          <input
+            className="text-input"
+            aria-label="Search history by headline"
+            placeholder="Search your analyses…"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
+        <select
+          className="select"
+          aria-label="Filter by assessment"
+          value={label}
+          onChange={(e) => {
+            setLabel(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">All assessments</option>
+          {[
+            "Likely Credible",
+            "Potentially Misleading",
+            "Needs Further Verification",
+            "Insufficient Evidence",
+          ].map((l) => (
+            <option key={l}>{l}</option>
+          ))}
+        </select>
+        <select
+          className="select"
+          aria-label="Sort history"
+          value={order}
+          onChange={(e) => {
+            setOrder(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+        <div className="view-toggle">
+          <button
+            aria-label="List view"
+            aria-pressed={view === "list"}
+            onClick={() => setView("list")}
+          >
+            <List size={15} />
+          </button>
+          <button
+            aria-label="Grid view"
+            aria-pressed={view === "grid"}
+            onClick={() => setView("grid")}
+          >
+            <Grid2X2 size={14} />
+          </button>
+        </div>
+      </div>
+      {remove.isError && <ErrorState message={remove.error.message} />}{" "}
+      {query.isPending ? (
+        <LoadingSkeleton />
+      ) : query.isError ? (
+        <ErrorState
+          message={query.error.message}
+          retry={() => query.refetch()}
+        />
+      ) : !query.data.items.length ? (
+        <div className="panel">
+          <EmptyState
+            title={
+              search || label
+                ? "No matching analyses"
+                : "A fresh start for your research"
+            }
+            description={
+              search || label
+                ? "Try a different headline or assessment filter."
+                : "Your analyses will be saved here, privately in this browser session."
+            }
+          />
+        </div>
+      ) : (
+        <>
+          <div className={view === "list" ? "panel" : ""}>
+            {view === "list" ? (
+              <HistoryTable
+                items={query.data.items}
+                onDelete={(id) => remove.mutate(id)}
+                pending={remove.isPending}
+              />
+            ) : (
+              <div className="history-grid">
+                {query.data.items.map((a) => (
+                  <article className="panel history-card" key={a.id}>
+                    <AssessmentBadge label={a.prediction.label} />
+                    <Link href={`/results/${a.id}`}>
+                      <h3>{a.headline}</h3>
+                    </Link>
+                    <p>
+                      {formatDate(a.created_at)} · {a.insights.word_count} words
+                    </p>
+                    <p>
+                      Model confidence: {percent(a.prediction.confidence)} ·
+                      {a.prediction.calibrated ? "calibrated" : "uncalibrated"}
+                    </p>
+                    <div>
+                      <Link className="section-link" href={`/results/${a.id}`}>
+                        Open report <ArrowUpRight size={12} />
+                      </Link>
+                      <ConfirmDialog
+                        title="Delete this analysis?"
+                        description="This permanently removes the article and all associated analysis data."
+                        onConfirm={() => remove.mutate(a.id)}
+                        pending={remove.isPending}
+                        trigger={
+                          <button
+                            disabled={remove.isPending}
+                            className="table-action"
+                            aria-label={`Delete ${a.headline}`}
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        }
+                      />
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="table-footer">
+            <span>
+              {query.data.total} results · Page {page} of{" "}
+              {Math.ceil(query.data.total / 9)}
+            </span>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+              >
+                <ChevronLeft size={12} /> Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page * 9 >= query.data.total}
+                onClick={() => setPage(page + 1)}
+              >
+                Next <ChevronRight size={12} />
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
+}

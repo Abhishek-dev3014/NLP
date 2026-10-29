@@ -1,6 +1,6 @@
 {
   "model_name": "TF-IDF + Logistic Regression",
-  "version": "liar-binary-ccdc38e3950f",
+  "version": "liar-binary-ccdc38e3950f-policy2",
   "dataset": "LIAR (Wang, ACL 2017), binary subset",
   "dataset_url": "https://sites.cs.ucsb.edu/~william/data/liar_dataset.zip",
   "dataset_size": 8061,
@@ -105,5 +105,89 @@
     "Speakers, topics, and political framing may overlap across official splits. Near-duplicate filtering reduces, but cannot eliminate, leakage.",
     "Language and sentiment heuristics do not establish misinformation."
   ],
-  "license_note": "Original LIAR distribution contains no explicit blanket license grant. Underlying PolitiFact content may have separate terms. Data is downloaded locally and not redistributed; review rights for your intended use."
+  "license_note": "Original LIAR distribution contains no explicit blanket license grant. Underlying PolitiFact content may have separate terms. Data is downloaded locally and not redistributed; review rights for your intended use.",
+  "balanced_accuracy": 0.6572290666512426,
+  "macro_f1": 0.6564984806128115,
+  "brier_score": 0.2129976646027439,
+  "log_loss": 0.6145008755262604,
+  "confidence_policy": {
+    "threshold": 0.7,
+    "target_met_on_validation": true,
+    "validation_curve": [
+      {
+        "threshold": 0.6,
+        "count": 155,
+        "accuracy": 0.7483870967741936,
+        "interval": [
+          0.6746285589521226,
+          0.8101311009858281
+        ]
+      },
+      {
+        "threshold": 0.65,
+        "count": 102,
+        "accuracy": 0.7647058823529411,
+        "interval": [
+          0.6737161802309318,
+          0.8364801886826144
+        ]
+      },
+      {
+        "threshold": 0.7,
+        "count": 63,
+        "accuracy": 0.8095238095238095,
+        "interval": [
+          0.6959297958482789,
+          0.8875391815550149
+        ]
+      },
+      {
+        "threshold": 0.75,
+        "count": 38,
+        "accuracy": 0.868421052631579,
+        "interval": [
+          0.7267282994850112,
+          0.9424621712426856
+        ]
+      },
+      {
+        "threshold": 0.8,
+        "count": 18,
+        "accuracy": 0.8888888888888888,
+        "interval": [
+          0.6719975513339578,
+          0.9689811315464172
+        ]
+      },
+      {
+        "threshold": 0.85,
+        "count": 3,
+        "accuracy": 1.0,
+        "interval": [
+          0.43849391955098227,
+          1.0
+        ]
+      },
+      {
+        "threshold": 0.9,
+        "count": 1,
+        "accuracy": 1.0,
+        "interval": [
+          0.20654329147389294,
+          1.0
+        ]
+      }
+    ],
+    "test_coverage": 0.06766917293233082,
+    "test_count": 54,
+    "test_correct": 47,
+    "test_accuracy": 0.8703703703703703,
+    "test_accuracy_interval": [
+      0.7557801946793228,
+      0.9357636077051201
+    ],
+    "note": "Actual serving policy: keyword/length/vocabulary scope screen plus confidence threshold. Conditional accuracy covers only accepted claims; rejected claims receive no definitive class. Confidence remains uncalibrated."
+  },
+  "selection_rule": "Baseline weights retained after the validation-selected challenger regressed on the retrospective test comparison. Abstention threshold chosen on validation only.",
+  "evaluation_note": "Full-test metrics measure the underlying classifier before abstention. Policy metrics measure accepted predictions. This is a retrospective evaluation on the previously reported test set."
 }

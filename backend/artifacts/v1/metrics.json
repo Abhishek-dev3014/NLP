@@ -1,0 +1,109 @@
+{
+  "model_name": "TF-IDF + Logistic Regression",
+  "version": "liar-binary-ccdc38e3950f",
+  "dataset": "LIAR (Wang, ACL 2017), binary subset",
+  "dataset_url": "https://sites.cs.ucsb.edu/~william/data/liar_dataset.zip",
+  "dataset_size": 8061,
+  "class_distribution": {
+    "credible": 4522,
+    "misleading": 3539
+  },
+  "split": {
+    "train": 6472,
+    "validation": 791,
+    "test": 798
+  },
+  "split_method": "Original official splits; exact and near duplicates removed globally, keeping the earliest split. No speaker metadata used. Speakers can overlap between splits; this is not a source-held-out benchmark.",
+  "duplicates_removed": {
+    "exact": 23,
+    "near": 6,
+    "near_cosine_threshold": 0.92
+  },
+  "label_mapping": {
+    "credible": [
+      "true",
+      "mostly-true"
+    ],
+    "misleading": [
+      "false",
+      "pants-fire"
+    ],
+    "excluded": [
+      "half-true",
+      "barely-true"
+    ]
+  },
+  "accuracy": 0.6629072681704261,
+  "precision": 0.6,
+  "recall": 0.6194690265486725,
+  "f1": 0.6095791001451378,
+  "roc_auc": 0.7187485941607059,
+  "confusion_matrix": [
+    [
+      319,
+      140
+    ],
+    [
+      129,
+      210
+    ]
+  ],
+  "classification_report": {
+    "credible": {
+      "precision": 0.7120535714285714,
+      "recall": 0.6949891067538126,
+      "f1-score": 0.7034178610804851,
+      "support": 459.0
+    },
+    "misleading": {
+      "precision": 0.6,
+      "recall": 0.6194690265486725,
+      "f1-score": 0.6095791001451378,
+      "support": 339.0
+    },
+    "accuracy": 0.6629072681704261,
+    "macro avg": {
+      "precision": 0.6560267857142856,
+      "recall": 0.6572290666512426,
+      "f1-score": 0.6564984806128115,
+      "support": 798.0
+    },
+    "weighted avg": {
+      "precision": 0.6644518662728249,
+      "recall": 0.6629072681704261,
+      "f1-score": 0.6635540265477999,
+      "support": 798.0
+    }
+  },
+  "validation_search": [
+    {
+      "C": 0.5,
+      "f1": 0.6524064171122995
+    },
+    {
+      "C": 1.0,
+      "f1": 0.6532797858099063
+    },
+    {
+      "C": 2.0,
+      "f1": 0.6469798657718121
+    },
+    {
+      "C": 4.0,
+      "f1": 0.6361185983827493
+    }
+  ],
+  "selected_C": 1.0,
+  "seed": 42,
+  "calibrated": false,
+  "evaluated_at": "2026-10-26T05:37:36.172994+00:00",
+  "limitations": [
+    "Short US political statements from 2007\u20132016, not general news articles.",
+    "Text patterns alone cannot verify factual truth.",
+    "Middle truthfulness labels are excluded; this is not the original six-class LIAR task.",
+    "Uncalibrated probabilities may be overconfident and should not be interpreted as truth probabilities.",
+    "Speakers, topics, and political framing may overlap across official splits. Near-duplicate filtering reduces, but cannot eliminate, leakage.",
+    "Language and sentiment heuristics do not establish misinformation."
+  ],
+  "license_note": "Original LIAR distribution contains no explicit blanket license grant. Underlying PolitiFact content may have separate terms. Data is downloaded locally and not redistributed; review rights for your intended use."
+}

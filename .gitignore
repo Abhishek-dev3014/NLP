@@ -16,3 +16,14 @@ frontend/playwright-report/
 .DS_Store
 
 backend/.session-secret
+
+backend/artifacts/**/*.joblib
+backend/artifacts/encoders/
+backend/artifacts/*.npz
+frontend/tsconfig.tsbuildinfo
+
+backend/artifacts/articles/prepared.joblib
+
+frontend/.next-e2e/
+
+.presentation-build/
